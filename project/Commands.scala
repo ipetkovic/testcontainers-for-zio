@@ -74,7 +74,7 @@ object Commands {
       quietOn >> "+headerCreateAll" >> "+scalafmtSbt" >> "+scalafmt" >> "+Test / scalafmt" >> fix >> quietOff ?? ("prepare", "Prepares sources by applying scalafmt, adding missing license headers and running scalafix.")
 
     val publishAll =
-      quietOn >> "project /" >> "+publishSigned" >> quietOff ?? ("publish-all", "Signs and publishes all artifacts to Maven Central.")
+      quietOn >> "project /" >> "+publish" >> quietOff ?? ("publish-all", "Publishes all artifacts to Github.")
 
     val site =
       quietOn >> "docs/clean" >> "docs/docusaurusCreateSite" >> quietOff ?? ("site", "Builds the documentation microsite.")

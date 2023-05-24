@@ -72,6 +72,6 @@ jobs:
       - name: Cache scala dependencies
         uses: coursier/cache-action@v6
       - name: Release artifacts
-        run: sbt publish+
+        run: sbt publish-all
         env:
           GITHUB_TOKEN: ${{ github.token }}
