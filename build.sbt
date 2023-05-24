@@ -1,6 +1,6 @@
 import ZioEcosystemProjectPlugin.autoImport._
 
-ThisBuild / version       := "0.10.0"
+ThisBuild / version       := "0.10.0-mod"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / organization  := "io.github.scottweaver"
 ThisBuild / description   := "Provides ZIO ZLayer wrappers around Scala Testcontainers"
@@ -296,17 +296,6 @@ def testcontainersScalaSettings =
     )
   ) ++ publishSettings
 
-lazy val publishSettings =
-  Seq(
-    pomIncludeRepository := { _ => false },
-    publishTo := {
-      val nexus = "https://s01.oss.sonatype.org/"
-      if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
-      else Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
-    publishMavenStyle := true
-  )
-
 lazy val docs = project
   .in(file("docs-project"))
   .settings(
@@ -321,3 +310,12 @@ lazy val docs = project
   )
   .dependsOn(root)
   .enablePlugins(DocusaurusPlugin, ScalaUnidocPlugin, DocusaurusExtrasPlugin)
+
+lazy val publishSettings = Seq(
+  githubOwner      := "ipetkovic",
+  githubRepository := "testcontainers-for-zio",
+  githubTokenSource := TokenSource.Or(
+    TokenSource.Environment("GITHUB_TOKEN"), // Injected during a github workflow for publishing
+    TokenSource.GitConfig("github.token")    // local token set in ~/.gitconfig
+  )
+)
